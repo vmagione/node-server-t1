@@ -12,3 +12,17 @@ Content-Type: application/json
 
 
 GET http://localhost:3000/videos
+
+
+###
+
+PUT http://localhost:3000/videos/ed6251d0-4186-4e31-8ccd-861ff92da015
+Content-Type: application/json
+
+{
+    "title": "Video 03",
+    "description": "This is Video 03",
+    "duration": 180
+    
+}
+

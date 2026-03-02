@@ -41,8 +41,6 @@ server.post("/videos", (request, response) => {
     
     const { title, description, duration} = request.body;
 
-
-
     database.create({
         title: title,
         description: description,
@@ -60,8 +58,20 @@ server.get("/videos", () => {
 
 });
 
-server.put("/videos:id", () => {
-    return "Route videos updated!";
+server.put("/videos:id", (request, response) => {
+
+    const { title, description, duration} = request.body;
+
+    const videoId = request.params.id;
+
+    database.update(videoId, {
+        title,
+        description,
+        duration
+    });
+
+    return response.status(204).send();
+
 });
 
 server.delete("/videos:id", () => {
