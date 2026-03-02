@@ -1,0 +1,13 @@
+- Instalar node, instalar npm
+- criar diretório
+- criar arquivo server.js
+- criar um package.json: npm init -y  
+- Comando para recarregar o server automáticamente ao savar: node --watch --no-warnings server.js  
+- Comando para rodar script de dev: npm run dev
+- se der erro de permissão para executar scripts: 
+	- Abra powershell como admin, 
+	- Rode: Get-ExecutionPolicy
+	- Se Restricted:
+		- Rode: Set-ExecutionPolicy RemoteSigned
+		- Confirmer
+
