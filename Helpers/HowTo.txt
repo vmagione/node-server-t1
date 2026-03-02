@@ -2,6 +2,7 @@
 - criar diretório
 - criar arquivo server.js
 - criar um package.json: npm init -y  
+- Alterar o tipo no package.json:  adicionar a linha  "type": "module",
 - Comando para recarregar o server automáticamente ao savar: node --watch --no-warnings server.js  
 - Comando para rodar script de dev: npm run dev
 - se der erro de permissão para executar scripts: 
@@ -11,3 +12,5 @@
 		- Rode: Set-ExecutionPolicy RemoteSigned
 		- Confirmer
 
+- Instalar fastify, micro framework com funcionalidades essenciais, como roteamento: 
+	- npm install fastify

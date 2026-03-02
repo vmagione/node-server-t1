@@ -15,9 +15,12 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/vmagione/node-server-t1/issues"
   },
-  "homepage": "https://github.com/vmagione/node-server-t1#readme"
+  "homepage": "https://github.com/vmagione/node-server-t1#readme",
+  "dependencies": {
+    "fastify": "^5.7.4"
+  }
 }
