@@ -32,23 +32,40 @@ import { DatabaseMemory } from "./database-memory.js";
 
 const server = fastify();
 
+const database = new DatabaseMemory();
+
 const hostname = '127.0.0.1';
 const port = 3000;
 
-server.post("/videos", () => {
-    return "Server created!";
+server.post("/videos", (request, response) => {
+    
+    const { title, description, duration} = request.body;
+
+
+
+    database.create({
+        title: title,
+        description: description,
+        duration: duration,
+    });
+    
+    return response.status(201).send();
+
 });
 
 server.get("/videos", () => {
-    return "Route hello created!";
+    const videos = database.list();
+
+    return videos;
+
 });
 
 server.put("/videos:id", () => {
-    return "Server created!";
+    return "Route videos updated!";
 });
 
 server.delete("/videos:id", () => {
-    return "Server created!";
+    return "Route videos deleted!";
 });
 
 server.listen({

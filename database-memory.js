@@ -6,7 +6,7 @@ export class DatabaseMemory{
 
 
     list(){
-        return this.#videos.values();
+        return Array.from( this.#videos.values());
     }
 
     create(video) {
