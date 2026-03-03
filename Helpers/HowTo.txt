@@ -17,3 +17,10 @@
 - Instalar extenção REST Client no VSCode, para testar chamadas de api
 - Instalar extenção DotENV para configurar arquivo de environment
 - Criar arquivo .env
+
+- Se aparecer erro `28P01` (falha de autenticação no PostgreSQL):
+	1. Verifique se o .env está correto (pode copiar de .env.example)
+	2. Se usar DATABASE_URL, encode caracteres especiais da senha (ex.: `*` vira `%2A`)
+	3. Se o banco foi iniciado antes com outra senha, remova o volume e suba de novo:
+		- docker compose down -v
+		- docker compose up -d

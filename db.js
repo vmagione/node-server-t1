@@ -1,15 +1,11 @@
-
 import fs from "node:fs";
 import path from "node:path";
 import postgres from "postgres";
 
-
 const envPath = path.resolve(process.cwd(), ".env");
 
 function stripWrappingQuotes(value) {
-  if (!value) {
-    return value;
-  }
+  if (!value) return value;
 
   const startsWithSingle = value.startsWith("'") && value.endsWith("'");
   const startsWithDouble = value.startsWith('"') && value.endsWith('"');
@@ -22,9 +18,7 @@ function stripWrappingQuotes(value) {
 }
 
 function normalizeDatabaseUrl(url) {
-  if (!url) {
-    return url;
-  }
+  if (!url) return url;
 
   let normalized = stripWrappingQuotes(url.trim());
 
@@ -35,21 +29,19 @@ function normalizeDatabaseUrl(url) {
   return normalized;
 }
 
-if (fs.existsSync(envPath)) {
+function loadEnvFromFile() {
+  if (!fs.existsSync(envPath)) return;
+
   const envContent = fs.readFileSync(envPath, "utf8");
 
   for (const line of envContent.split("\n")) {
     const trimmed = line.trim();
 
-    if (!trimmed || trimmed.startsWith("#")) {
-      continue;
-    }
+    if (!trimmed || trimmed.startsWith("#")) continue;
 
     const separatorIndex = trimmed.indexOf("=");
 
-    if (separatorIndex === -1) {
-      continue;
-    }
+    if (separatorIndex === -1) continue;
 
     const key = trimmed.slice(0, separatorIndex).trim();
     const value = trimmed.slice(separatorIndex + 1).trim();
@@ -60,10 +52,26 @@ if (fs.existsSync(envPath)) {
   }
 }
 
-const databaseUrl = normalizeDatabaseUrl(process.env.DATABASE_URL);
+function buildDatabaseUrlFromParts() {
+  const host = process.env.PGHOST || "127.0.0.1";
+  const port = process.env.PGPORT || "5432";
+  const database = process.env.PGDATABASE;
+  const user = process.env.PGUSER;
+  const password = process.env.PGPASSWORD;
+
+  if (!database || !user || !password) return null;
+
+  return `postgres://${encodeURIComponent(user)}:${encodeURIComponent(password)}@${host}:${port}/${database}`;
+}
+
+loadEnvFromFile();
+
+const databaseUrl = normalizeDatabaseUrl(process.env.DATABASE_URL) || buildDatabaseUrlFromParts();
 
 if (!databaseUrl) {
-  throw new Error("DATABASE_URL não foi definida. Configure no arquivo .env.");
+  throw new Error(
+    "Banco não configurado. Defina DATABASE_URL ou PGHOST/PGPORT/PGDATABASE/PGUSER/PGPASSWORD no .env.",
+  );
 }
 
 const sql = postgres(databaseUrl, {
