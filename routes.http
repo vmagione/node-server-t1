@@ -16,7 +16,7 @@ GET http://localhost:3000/videos
 
 ###
 
-PUT http://localhost:3000/videos/ed6251d0-4186-4e31-8ccd-861ff92da015
+PUT http://localhost:3000/videos/
 Content-Type: application/json
 
 {

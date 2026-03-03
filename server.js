@@ -58,7 +58,7 @@ server.get("/videos", () => {
 
 });
 
-server.put("/videos:id", (request, response) => {
+server.put("/videos/:id", (request, response) => {
 
     const { title, description, duration} = request.body;
 
@@ -74,8 +74,12 @@ server.put("/videos:id", (request, response) => {
 
 });
 
-server.delete("/videos:id", () => {
-    return "Route videos deleted!";
+server.delete("/videos/:id", (request, response) => {
+    const videoId = request.params.id;
+
+    database.delete(videoId);
+
+    return response.status(204).send();
 });
 
 server.listen({
