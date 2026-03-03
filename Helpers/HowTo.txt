@@ -14,3 +14,6 @@
 
 - Instalar fastify, micro framework com funcionalidades essenciais, como roteamento: 
 	- npm install fastify
+- Instalar extenção REST Client no VSCode, para testar chamadas de api
+- Instalar extenção DotENV para configurar arquivo de environment
+- Criar arquivo .env
