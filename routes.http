@@ -5,30 +5,23 @@ Content-Type: application/json
     "title": "Video Node",
     "description": "This is Video 01",
     "duration": 180
-    
 }
 
 ###
 
-
 GET http://localhost:3000/videos?search=Node
-
 
 ###
 
-PUT http://localhost:3000/videos/
+PUT http://localhost:3000/videos/<video-id>
 Content-Type: application/json
 
 {
     "title": "Video 03",
     "description": "This is Video 03",
     "duration": 180
-    
 }
 
 ###
 
-
-DELETE http://localhost:3000/videos/
-
-
+DELETE http://localhost:3000/videos/<video-id>

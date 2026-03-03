@@ -4,9 +4,9 @@ services:
     image: postgres:16
     container_name: node_t1_postgres
     environment:
-      POSTGRES_USER: appuser
-      POSTGRES_PASSWORD: apppass
-      POSTGRES_DB: appdb
+      POSTGRES_USER: vmagione
+      POSTGRES_PASSWORD: Teste123*
+      POSTGRES_DB: video-server
     ports:
       - "5432:5432"
     volumes:

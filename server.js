@@ -1,87 +1,62 @@
-// Criando server sem fastify
-
-/*
-const { createServer } = require('node:http');
-
-const hostname = '127.0.0.1';
-const port = 3000;
-
-const server = createServer((req, res) => {
-    console.log("Log: Server created!");
-
-   
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain');
-
-    res.write("Response: writed");
-    return res.end('Server created!');
-  
-});
-
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
-
-*/
 
 
 // Criando server com fastify
 
 import { fastify } from "fastify";
-import { DatabaseMemory } from "./database-memory.js";
+import { randomUUID } from "node:crypto";
+import sql from "./db.js";
+
 
 const server = fastify();
 
-const database = new DatabaseMemory();
-
-const hostname = '127.0.0.1';
+const hostname = "127.0.0.1";
 const port = 3000;
 
-server.post("/videos", (request, response) => {
-    
-    const { title, description, duration} = request.body;
+server.post("/videos", async (request, response) => {
+    const { title, description, duration } = request.body;
+    const id = randomUUID();
 
-    database.create({
-        title: title,
-        description: description,
-        duration: duration,
-    });
-    
-    return response.status(201).send();
+    await sql`
+        INSERT INTO videos (id, title, description, duration)
+        VALUES (${id}, ${title}, ${description}, ${duration})
+    `;
+
+    return response.status(201).send({ id });
 
 });
 
-server.get("/videos", (request) => {
-    
+server.get("/videos", async (request) => {
     const search = request.query.search;
-    
-    const videos = database.list(search);
-
-    return videos;
-
+    if (search) {
+        const videos = await sql`
+            SELECT id, title, description, duration
+            FROM videos
+            WHERE title ILIKE ${`%${search}%`}
+            ORDER BY title
+        `;
+        return videos;
+    }
 });
 
-server.put("/videos/:id", (request, response) => {
-
-    const { title, description, duration} = request.body;
-
+server.put("/videos/:id", async (request, response) => {
+    const { title, description, duration } = request.body;
     const videoId = request.params.id;
-
-    database.update(videoId, {
-        title,
-        description,
-        duration
-    });
-
+    await sql`
+        UPDATE videos
+        SET title = ${title},
+            description = ${description},
+            duration = ${duration}
+        WHERE id = ${videoId}
+    `;
     return response.status(204).send();
-
 });
 
-server.delete("/videos/:id", (request, response) => {
+server.delete("/videos/:id", async (request, response) => {
     const videoId = request.params.id;
-
-    database.delete(videoId);
-
+    await sql`
+        DELETE FROM videos
+        WHERE id = ${videoId}
+    `;
     return response.status(204).send();
 });
 

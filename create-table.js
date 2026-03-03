@@ -1,9 +1,13 @@
-import { sql } from "./db.js"
+import sql from "./db.js";
 
-sql`
-    CREATE TABLE videos (
-    title TEXT,
+await sql`
+  CREATE TABLE IF NOT EXISTS videos (
+    id TEXT PRIMARY KEY,
+    title TEXT NOT NULL,
     description TEXT,
-    duration INTEGER
-    );
-`
+    duration INTEGER NOT NULL
+  )
+`;
+
+console.log("Tabela videos pronta.");
+await sql.end();
