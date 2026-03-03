@@ -1,13 +1,9 @@
+
 import "dotenv/config";
-import { postgres } from "postgres";
+import postgres from "postgres";
 
+const sql = postgres(process.env.DATABASE_URL, {
+  max: 10,
+});
 
-
-require("dotenv").config();
-
-const http = require("http");
-const { neon } = require("@neondatabase/serverless");
-
-const sql = neon(process.env.DATABASE_URL);
-
-export default sql
+export default sql;
