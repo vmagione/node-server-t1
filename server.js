@@ -6,8 +6,10 @@ import { fastify } from "fastify";
 import { randomUUID } from "node:crypto";
 import sql from "./db.js";
 
+import { DatabasePostgres } from "./database-postgres.js"
 
 const server = fastify();
+const database = new DatabasePostgres();
 
 const hostname = "127.0.0.1";
 const port = 3000;
@@ -27,15 +29,7 @@ server.post("/videos", async (request, response) => {
 
 server.get("/videos", async (request) => {
     const search = request.query.search;
-    if (search) {
-        const videos = await sql`
-            SELECT id, title, description, duration
-            FROM videos
-            WHERE title ILIKE ${`%${search}%`}
-            ORDER BY title
-        `;
-        return videos;
-    }
+    return database.list(search);
 });
 
 server.put("/videos/:id", async (request, response) => {
