@@ -17,3 +17,10 @@
 - Instalar extenção REST Client no VSCode, para testar chamadas de api
 - Instalar extenção DotENV para configurar arquivo de environment
 - Criar arquivo .env
+- Instalar biblioteca dotenv: npm i dotenv -D
+- Acessar site neon.tech
+
+# postgres local
+
+- Criar docker-compose.yml
+- Instalar docker 
